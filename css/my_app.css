@@ -1,0 +1,78 @@
+body{
+	margin: 0px;
+	padding: 0px;
+}
+.border-box{
+	border: 1px solid #ededed;
+}
+.border-box:hover{
+	border: 1px solid #f40;
+}
+
+@media screen and (max-width:992px){
+	#content{
+		padding: 2.66vw 5.33vw 0 5.33vw;
+	}
+	.card{
+		margin: 0px;
+		padding: 2.66vw;
+		float: left;
+		width: 50%;
+		box-sizing: border-box;
+	}
+	.card img{
+		width: 100%;
+		max-height: 250px;
+		object-fit: cover;
+	}
+	.card-title{
+		margin: 1vh 0px 1vh 0px;
+		padding: 0px 1.33vw 0px 1.33vw;
+	}
+	.g_price{
+		padding: 0px 1.33vw 0px 1.33vw;
+	}
+	.price{
+		font-family: arial;
+	}
+	.card-text{
+		height: 100px;
+		overflow: auto;
+		font-family: arial;
+		padding: 0px 1.33vw 0px 1.33vw;
+	}
+}
+@media screen and (min-width: 992px){
+	#content{
+		padding: 5.18vh 2.91vw 0 2.91vw;
+	}
+	.card{
+		margin: 0px;
+		padding: 2vw;
+		float: left;
+		width: 20%;
+		box-sizing: border-box;
+	}
+	.card img{
+		width: 100%;
+		max-height: 250px;
+		object-fit: cover;
+	}
+	.card-title{
+		margin: 1.48vh 0px 1.48vh 0px;
+		padding: 0px 1.33vw 0px 1.33vw;
+	}
+	.g_price{
+		padding: 0px 1.33vw 0px 1.33vw;
+		font-weight: bold;
+	}
+	.price{
+		font-family: arial;
+	}
+	.card-text{
+		height: 100px;
+		overflow: auto;
+		font-family: arial;
+		padding: 0px 1.33vw 0px 1.33vw;
+	}
+}
