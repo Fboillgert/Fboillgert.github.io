@@ -108,19 +108,19 @@
 					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E7%AB%A0%E9%B1%BC%20%E8%8F%9C%E5%93%81.jpg'
 					],
 				},
-				{'name': '皮皮虾', 'price': '', 'imgs': [
+				{'name': '皮皮虾', 'price': '未知价格', 'imgs': [
 					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E7%9A%AE%E7%9A%AE%E8%99%BE.jpg'
 					],
 				},
-				{'name': '三眼蟹', 'price': '', 'imgs': [
+				{'name': '三眼蟹', 'price': '未知价格', 'imgs': [
 					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E4%B8%89%E7%9C%BC%E8%9F%B9.jpg'
 					],
 				},
-				{'name': '花蟹', 'price': '', 'imgs': [
+				{'name': '花蟹', 'price': '未知价格', 'imgs': [
 					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E8%8A%B1%E8%9F%B9.jpg'
 					],
 				},
-				{'name': '肉蟹', 'price': '', 'imgs': [
+				{'name': '肉蟹', 'price': '未知价格', 'imgs': [
 					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E8%82%89%E8%9F%B9.jpg'
 					],
 				},
@@ -245,13 +245,8 @@
 		<script>
 			$.each(supplies, function(index, value){
 				var name = value['name'];
-				var price = value['price']===undefined||value['price'].length==0?'未知价格':value['price'];
+				var price = value['price'];
 				var imgs = value['imgs'][0]===undefined?'https://logo-1256424525.cos.ap-hongkong.myqcloud.com/%E6%9A%82%E6%97%A0%E5%9B%BE%E7%89%87.png': value['imgs'][0];
-				// console.log(index)
-				// console.log(name)
-				// console.log(price)
-				// console.log(imgs)
-				// console.log('----')
 				$('#content').append('<div class="col-xl-2 col-lg-3 col-sm-6 col-6"><div class="card" data-toggle="modal" data-target="#picture-collection" data-id="'+index+'"><div class="card-header">'+name+'</div><img class="rounded" src="'+imgs+'" alt="'+name+'" /><div class="card-body"><h5 class="card-title"><span></span><span class="price">'+price+'</span></h5></div></div></div>')
 			});
 		</script>
