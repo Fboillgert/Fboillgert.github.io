@@ -12,6 +12,10 @@
 			img{
 				object-fit: cover;
 				width: 100%;
+			}
+			.card img{
+				object-fit: cover;
+				width: 100%;
 				height: 200px;
 			}
 			@font-face{
@@ -36,11 +40,165 @@
 			}
 		</style>
 		<script>
+			var supplies=[
+				{'name': '龙利', 'price': '35元/斤', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E9%BE%99%E5%88%A9.jpg',
+					],
+				},
+				{'name': '金昌鱼', 'price': '28元/斤', 'imgs': [
+					],
+				},
+				{'name': '黄花鱼', 'price': '25元/斤', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E9%BB%84%E8%8A%B1%E9%B1%BC.jpg',
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E6%B8%85%E8%92%B8%E9%BB%84%E8%8A%B1%E9%B1%BC.jpg',
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E7%83%A4%E9%BB%84%E8%8A%B1%E9%B1%BC.jpg'
+					],
+				},
+				{'name': '带鱼', 'price': '32元/斤', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E5%B8%A6%E9%B1%BC.jpg',
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E9%A6%99%E7%85%8E%E5%B8%A6%E9%B1%BC.jpg',
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E5%B8%A6%E9%B1%BC%20%E8%8F%9C%E5%93%81.jpg'
+					],
+				},
+				{'name': '马胶鱼', 'price': '35元/斤', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E9%A9%AC%E8%83%B6%E9%B1%BC.jpg',
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E9%A9%AC%E8%83%B6%E9%B1%BC%20%E9%A6%99%E7%85%8E.jpg'
+					],
+				},
+				{'name': '石斑鱼', 'price': '28元/斤', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E5%B0%8F%E7%9F%B3%E6%96%91%E9%B1%BC.jpg'
+					],
+				},
+				{'name': '金丝鱼', 'price': '45元/斤', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E9%87%91%E4%B8%9D%E9%B1%BC.jpg'
+					],
+				},
+				{'name': '马头鱼', 'price': '大35元/斤', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E9%A9%AC%E5%A4%B4%E9%B1%BC.jpg'
+					],
+				},
+				{'name': '拔泥公', 'price': '18元/斤', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E6%8B%94%E6%B3%A5%E5%85%AC.jpg'
+					],
+				},
+				{'name': '红衫', 'price': '16元/斤', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E7%BA%A2%E8%A1%AB.jpg'
+					],
+				},
+				{'name': '鱿鱼', 'price': '中45元/斤 小30元/斤', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E4%B8%AD%E9%B1%BF%E9%B1%BC.jpg',
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E5%B0%8F%E9%B1%BF%E9%B1%BC.jpg'
+					],
+				},
+				{'name': '章鱼', 'price': '45元/斤', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E5%B0%8F%E7%AB%A0%E9%B1%BC.jpg',
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E7%AB%A0%E9%B1%BC%20%E8%8F%9C%E5%93%81.jpg'
+					],
+				},
+				{'name': '皮皮虾', 'price': '', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E7%9A%AE%E7%9A%AE%E8%99%BE.jpg'
+					],
+				},
+				{'name': '三眼蟹', 'price': '', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E4%B8%89%E7%9C%BC%E8%9F%B9.jpg'
+					],
+				},
+				{'name': '花蟹', 'price': '', 'imgs': [
+					],
+				},
+				{'name': '肉蟹', 'price': '', 'imgs': [
+					],
+				},
+				{'name': '黄翅鱼', 'price': '27元/斤', 'imgs': [
+					],
+				},
+				{'name': '小海沙尖', 'price': '27元/斤', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E6%B2%99%E5%B0%96.jpg'
+					],
+				},
+				{'name': '黄花鱼胶', 'price': '30头788元 40头688元 60头658元 100头608元', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E9%BB%84%E8%8A%B1%E9%B1%BC%E8%83%B6.jpg'
+					],
+				},
+				{'name': '石斑鱼胶', 'price': '340元/斤', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E7%9F%B3%E6%96%91%E9%B1%BC%E8%83%B6.jpg'
+					],
+				},
+				{'name': '瑶柱', 'price': '350头115元 400头110元 500头105元', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E7%91%B6%E6%9F%B1.jpg'
+					],
+				},
+				{'name': '鱿鱼丝', 'price': '16元/包', 'imgs': [
+					],
+				},
+				{'name': '鱿鱼仔', 'price': '28元/大包', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E7%A2%B3%E7%83%A4%E9%B1%BF%E9%B1%BC%E4%BB%94.jpg'
+					],
+				},
+				{'name': '虾皮', 'price': '28元/斤', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E8%99%BE%E7%9A%AE.jpg'
+					],
+				},
+				{'name': '虾仁', 'price': '20元/半斤', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E8%99%BE%E4%BB%81.jpg',
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E8%99%BE%E4%BB%81%20%E8%8F%9C%E5%93%81%201.jpg',
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E8%99%BE%E4%BB%81%20%E8%8F%9C%E5%93%81%202.jpg'
+					],
+				},
+				{'name': '海苔', 'price': '9元/盒', 'imgs': [
+					],
+				},
+				{'name': '墨鱼滑 马胶滑 虾滑', 'price': '墨鱼滑31元 马胶滑33元 虾滑31元', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E9%B1%BC%E4%B8%B8%20%E9%B1%BC%E9%A5%BC%201.jpg',
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E9%B1%BC%E4%B8%B8%20%E9%B1%BC%E9%A5%BC%202.jpg',
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E5%A2%A8%E9%B1%BC%E6%BB%91%20%E8%8F%9C%E5%93%81.jpg'
+					],
+				},
+				{'name': '黄金虾饼 手打墨鱼饼', 'price': '黄金虾饼21元 手打墨鱼饼19元', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E9%B1%BC%E4%B8%B8%20%E9%B1%BC%E9%A5%BC%201.jpg',
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E9%B1%BC%E4%B8%B8%20%E9%B1%BC%E9%A5%BC%202.jpg',
+					],
+				},
+				{'name': '黄金鱼丸 马胶鱼丸 墨鱼丸 七彩丸 墨鱼汁丸 蟹柳丸 虾丸 章鱼丸', 'price': '黄金鱼丸18元 马胶鱼丸18元 墨鱼丸19元 七彩丸23元 墨鱼汁丸21元 蟹柳丸21元 虾丸21元 章鱼丸24元', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E9%B1%BC%E4%B8%B8%20%E9%B1%BC%E9%A5%BC%201.jpg',
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E9%B1%BC%E4%B8%B8%20%E9%B1%BC%E9%A5%BC%202.jpg',
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E5%A2%A8%E9%B1%BC%E4%B8%B8.jpg',
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E4%B8%83%E5%BD%A9%E4%B8%B8.jpg',
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E5%A2%A8%E9%B1%BC%E6%B1%81%E4%B8%B8.jpg',
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E7%AB%A0%E9%B1%BC%E4%B8%B8.jpg'
+					],
+				},
+				{'name': '生蚝', 'price': '大7元/斤 中5元/斤 小3元/斤', 'imgs': [
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E4%B8%AD%E7%94%9F%E8%9A%9D%201.jpg',
+					'https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E4%B8%AD%E7%94%9F%E8%9A%9D%202.jpg'
+					],
+				},
+			]
 			$(document).ready(function(){
+				$('.toast').toast('show');
 				$('#picture-collection').on('show.bs.modal', function(event){
+					$(this).find('.modal-body').html('');
 					var element = $(event.relatedTarget);
-					$(this).find('.modal-title').text(element.find('.card-header').text())
-				})
+					var name = element.find('.card-header').text();
+					var imgs = supplies[element.data('id')]['imgs'];
+					$(this).find('.modal-title').text(name)
+					for(let i=0;i<imgs.length;i++){
+						$(this).find('.modal-body').append('<img class="img-thumbnail" width="100%" src="'+imgs[i]+'" alt="'+name+'" />');
+					}
+				});
+				$.ajax({
+					url:'http://127.0.0.1:5555/project/json',
+					type: "GET",
+					dataType: "jsonp",
+					jsonp: "callback",
+					jsonpCallback: "successCallback", //这里的值需要和回调函数名一样
+					success:function(data){
+						console.log(data);
+					},
+					error:function (textStatus){ //请求失败后调用的函数
+						console.log(JSON.stringify(textStatus));
+					}
+				});
 			})
 		</script>
 	</head>
@@ -54,12 +212,7 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
-					<div class="modal-body">
-						<div class="d-flex align-items-center">
-							<strong>Loading...</strong>
-							<div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
-						</div>
-					</div>
+					<div class="modal-body"></div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
 						<button type="button" class="btn btn-primary">确定</button>
@@ -68,29 +221,20 @@
 			</div>
 		</div>
 		<div id="container">
-			<div class="row" style="margin: 0px;">
-				
-				<div class="col-xl-2 col-lg-3 col-sm-6 col-6">
-					<div class="card" data-toggle="modal" data-target="#picture-collection">
-						<div class="card-header">三眼蟹</div>
-						<img class="rounded" src="https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E4%B8%89%E7%9C%BC%E8%9F%B9.jpg" alt="三眼蟹" />
-						<div class="card-body">
-							<h5 class="card-title"><span>¥</span><span class="price">30元一斤</span></h5>
-						</div>
-					</div>
-				</div>
-				
-				<div class="col-xl-2 col-lg-3 col-sm-6 col-6">
-					<div class="card" data-toggle="modal" data-target="#picture-collection">
-						<div class="card-header">虾</div>
-						<img class="rounded" src="https://store-1256424525.cos.ap-nanjing.myqcloud.com/%E8%99%BE.jpg" alt="虾" />
-						<div class="card-body">
-							<h5 class="card-title"><span>¥</span><span class="price">35元一斤</span></h5>
-						</div>
-					</div>
-				</div>
-				
-			</div>
+			<div id="content" class="row" style="margin: 0px;"></div>
 		</div>
+		<script>
+			$.each(supplies, function(index, value){
+				var name = value['name'];
+				var price = value['price']===undefined||value['price'].length==0?'未知价格':value['price'];
+				var imgs = value['imgs'][0]===undefined?'https://logo-1256424525.cos.ap-hongkong.myqcloud.com/%E6%9A%82%E6%97%A0%E5%9B%BE%E7%89%87.png': value['imgs'][0];
+				// console.log(index)
+				// console.log(name)
+				// console.log(price)
+				// console.log(imgs)
+				// console.log('----')
+				$('#content').append('<div class="col-xl-2 col-lg-3 col-sm-6 col-6"><div class="card" data-toggle="modal" data-target="#picture-collection" data-id="'+index+'"><div class="card-header">'+name+'</div><img class="rounded" src="'+imgs+'" alt="'+name+'" /><div class="card-body"><h5 class="card-title"><span></span><span class="price">'+price+'</span></h5></div></div></div>')
+			});
+		</script>
 	</body>
 </html>
