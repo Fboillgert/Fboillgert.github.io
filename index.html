@@ -72,7 +72,7 @@
 			.hide-scrollbar {
 				overflow: hidden;
 			}
-			#outerdiv{
+			#picture-curtain{
 				text-align: center;
 				position: fixed;
 				z-index: 1000;
@@ -81,6 +81,7 @@
 				width: 100%;
 				height: 100%;
 				background-color: #000;
+				opacity: 1;
 				overflow: hidden;
 				display: none;
 			}
@@ -89,7 +90,7 @@
 				-webkit-transition: all .3s ease-in-out;
 				-moz-transition: all .3s ease-in-out;
 			}
-			#outerdiv .slick-slide{
+			#picture-curtain .slick-slide{
 				position: relative;
 				float: left;
 				width: 100vw;
@@ -108,6 +109,16 @@
 				position: fixed;
 				z-index: 1001;
 				cursor: pointer;
+			}
+			#img-header{
+				cursor: auto;
+				position: fixed;
+				padding-top: 10px;
+				padding-left: 10px;
+				width: 80vw;
+				color: #FFF;
+				opacity: 0.8;
+				z-index: 1002;
 			}
 			#img-back{
 				color: #FFF;
@@ -301,17 +312,133 @@
 					],
 				}
 			]
-			$(document).ready(function(){
-				$('#picture-collection').on('show.bs.modal', function(event){
-					$(this).find('.modal-body').html('');
-					var element = $(event.relatedTarget);
-					var name = element.find('.card-header').text();
-					var imgs = supplies[element.data('id')]['imgs'];
-					$(this).find('.modal-title').text(name)
-					for(let i=0;i<imgs.length;i++){
-						$(this).find('.modal-body').append('<img class="img-thumbnail" width="100%" src="'+imgs[i]+'" alt="'+name+'" />');
+		</script>
+	</head>
+	<body>
+		<div id="picture-curtain" class="touch-none"><div class="slick-track slick-animation" style="transform: translate3d(0vw, 0, 0);" data-index="0"></div></div>
+		<div id="img-header" class="img-btn">
+			<span class="name"></span>
+			<span class="index"></span>
+		</div>
+		<div id="img-back" class="img-btn"><ion-icon class="icon" name="chevron-back-outline" size="large"></ion-icon></div>
+		<div id="img-forward" class="img-btn"><ion-icon class="icon" name="chevron-forward-outline" size="large"></ion-icon></div>
+		<div id="img-close" class="img-btn"><ion-icon class="icon" name="close" size="large"></ion-icon></div>
+		<div class="alert alert-primary" role="alert">
+			微信手机同号：<a href="tel:18566499000">18566499000</a>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="container-fluid">
+			<div id="content" class="row" style="margin: 0px;"></div>
+		</div>
+		<script>
+			var defaultImg = 'https://logo-1256424525.cos.ap-hongkong.myqcloud.com/%E6%9A%82%E6%97%A0%E5%9B%BE%E7%89%87.png';
+			$.each(supplies, function(index, value){
+				var name = value['name'];
+				var price = value['price'];
+				var imgs = value['imgs'][0]===undefined?defaultImg: value['imgs'][0];
+				$('#content').append('<div class="col-xl-2 col-lg-3 col-sm-6 col-6"><div class="card" data-id="'+index+'"><div class="card-header">'+name+'</div><img class="rounded" src="'+imgs+'" alt="'+name+'" /><div class="card-body"><h5 class="card-title"><span></span><span class="price">'+price+'</span></h5></div></div></div>')
+			});
+			var pictureCurtain = $('#picture-curtain');
+			var slickTrack = pictureCurtain.find('.slick-track');
+			var eleImgs = new Array();
+			function Percentage(num, total) {
+				return num == 0 || total == 0 ? 0 : (Math.round(num / total * 10000) / 100.00)
+			}
+			function imgShow(src, eleIndex) {
+				$('#img-header .index').text((eleIndex+1) + '/' + eleImgs.length);
+				if (window.matchMedia("(max-aspect-ratio:7/10)").matches) {
+					var maxWidth = 96;
+					var maxHeight = 86.2;
+					$('#img-back,#img-forward').hide();
+					$('#img-header').show();
+					$('#img-close').show();
+				}else{
+					var maxWidth = 83.33;
+					var maxHeight = 88.88;
+					$('.img-btn').show();
+				}
+				$('body').addClass('hide-scrollbar');
+				slickTrack.html('');
+				slickTrack.css('width', eleImgs.length + '00vw');
+				$.each(eleImgs, function(index, img){
+					slickTrack.append('<div class="slick-slide"><div class="landscape" data-slick-index="'+index+'" style="background: url('+img+') center center / contain no-repeat;"></div></div>');
+					if(eleIndex === index){
+						var pre = index == 0? 0 : index-1;
+						var next = index >= eleImgs.length-1?eleImgs.length-1 : index+1;
+						$('#img-back').data('src', pre);
+						$('#img-forward').data('src', next);
+						slickTrack.data('index', eleIndex);
+					}
+				})
+				slickTrack.find('.landscape').css({'width': maxWidth + 'vw', 'height': maxHeight + 'vh'});
+				pictureCurtain.show().fadeIn("fast");
+				$(window).off('keydown');
+				$(window).keydown(function(e){
+					if(e.keyCode===37){
+						$('#img-back').click();
+					}else if(e.keyCode===39){
+						$('#img-forward').click();
+					}else if(e.keyCode===27){
+						$('#img-close').click();
+					}
+				})
+			}
+			pictureCurtain.on('mousedown touchstart', function(e){
+				var distenceX = e.pageX==undefined?e.originalEvent.targetTouches[0].pageX: e.pageX;
+				var wWidth = $(window).width();
+				var thisIndex = slickTrack.data('index');
+				var x = 0;
+				var xAbs = 0;
+				slickTrack.removeClass('slick-animation');
+				pictureCurtain.on('mousemove touchmove', function(e){
+					var pageX = e.pageX==undefined?e.originalEvent.targetTouches[0].pageX: e.pageX;
+					x = pageX - distenceX;
+					xAbs = Percentage(Math.abs(x), wWidth);
+					if(x>0){
+						var translate = parseInt(thisIndex + '00') - xAbs;
+					}else if(x<0){
+						var translate = parseInt(thisIndex + '00') + xAbs;
+					}
+					slickTrack.css("transform","translate3d(-" + parseInt(translate) + "vw,0,0)");
+				});
+				pictureCurtain.on('mouseup touchend', function(){
+					pictureCurtain.off('mousemove touchmove mouseup touchend');
+					slickTrack.addClass('slick-animation');
+					if(xAbs<=10){
+						slickTrack.css("transform","translate3d(-" + thisIndex + "00vw,0,0)");
+					}else if(x>0){
+						$('#img-back').click();
+					}else if(x<0){
+						$('#img-forward').click();
 					}
 				});
+			});
+			function PicturePreview(){
+				$('.card').click(function(){
+					$('#img-header .name').text($(this).find('.card-header').text());
+					eleImgs = supplies[$(this).data('id')]['imgs'];
+					imgShow(eleImgs[0], 0);
+					slickTrack.css("transform","translate3d(0vw,0,0)");
+				});
+				$('#img-back').click(function(){
+					imgShow(eleImgs[$(this).data("src")], $(this).data("src"));
+					slickTrack.css("transform","translate3d(-" + $(this).data("src") + "00vw,0,0)");
+				});
+				$('#img-forward').click(function(){
+					imgShow(eleImgs[$(this).data("src")], $(this).data("src"));
+					slickTrack.css("transform","translate3d(-" + $(this).data("src") + "00vw,0,0)");
+				});
+				$("#img-close").click(function() {
+					$('.img-btn').hide();
+					$(window).off('keydown');
+					pictureCurtain.fadeOut("fast");
+					$('body').removeClass('hide-scrollbar');
+				});
+			}
+			$(document).ready(function(){
+				PicturePreview();
 				// 数据都保存在 supplies 里，到时由ajax获取这个变量
 				// $.ajax({
 				// 	url:'http://127.0.0.1:5555/project/json',
@@ -327,150 +454,6 @@
 				// 	}
 				// });
 			})
-		</script>
-	</head>
-	<body>
-		<div class="modal fade" id="picture-collection" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-			<div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalScrollableTitle">模态标题</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body"></div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-						<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div id="outerdiv" class="touch-none"><div class="slick-track slick-animation" style="transform: translate3d(0vw, 0, 0);" data-index="0"></div></div>
-		<div id="img-back" class="img-btn"><ion-icon class="icon" name="chevron-back-outline" size="large"></ion-icon></div>
-		<div id="img-forward" class="img-btn"><ion-icon class="icon" name="chevron-forward-outline" size="large"></ion-icon></div>
-		<div id="img-close" class="img-btn"><ion-icon class="icon" name="close" size="large"></ion-icon></div>
-		<div class="alert alert-primary" role="alert">
-			微信手机同号：<a href="tel:18566499000">18566499000</a>
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		</div>
-		<div class="container-fluid">
-			<div id="content" class="row" style="margin: 0px;"></div>
-		</div>
-		<script>
-			$.each(supplies, function(index, value){
-				var name = value['name'];
-				var price = value['price'];
-				var imgs = value['imgs'][0]===undefined?'https://logo-1256424525.cos.ap-hongkong.myqcloud.com/%E6%9A%82%E6%97%A0%E5%9B%BE%E7%89%87.png': value['imgs'][0];
-				$('#content').append('<div class="col-xl-2 col-lg-3 col-sm-6 col-6"><div class="card" data-toggle="modal" data-target="#picture-collection" data-id="'+index+'"><div class="card-header">'+name+'</div><img class="rounded" src="'+imgs+'" alt="'+name+'" /><div class="card-body"><h5 class="card-title"><span></span><span class="price">'+price+'</span></h5></div></div></div>')
-			});
-			function imgShow(src) {
-				$('.img-btn').show();
-				$('body').addClass('hide-scrollbar');
-				$('#outerdiv .landscape').css({'width': '83.33vw', 'height': '88.88vh'});
-				$("#outerdiv").show().fadeIn("fast");
-				$(window).off('keydown');
-				$(window).keydown(function(e){
-					if(e.keyCode===37){
-						$('#img-back').click();
-					}else if(e.keyCode===39){
-						$('#img-forward').click();
-					}else if(e.keyCode===27){
-						$('#img-close').click();
-					}
-				})
-			}
-			function InitializeBigImgBrowse(ele, eleIndex){
-				ele.each(function(index){
-					if(eleIndex === index){
-						var pre = index == 0? 0 : index-1;
-						var next = index >= ele.length-1?ele.length-1 : index+1;
-						$('#img-back').data('src', pre);
-						$('#img-forward').data('src', next);
-						$("#outerdiv .slick-track").data('index', eleIndex);
-						return false;
-					}
-				})
-			}
-			function BigImgBrowse(){
-				var bigimg = $('img.bigimg');
-				var outerdiv = $('#outerdiv');
-				bigimg.each(function(index){
-					outerdiv.find('.slick-track').append('<div class="slick-slide"><div class="landscape" data-slick-index="'+index+'" style="background: url('+$(this).attr("src")+') center center / contain no-repeat;"></div></div>');
-				});
-				outerdiv.find('.slick-track').css('width', bigimg.length + '00vw');
-				bigimg.click(function() {
-					var src = $(this).attr("src");
-					if(src===undefined){
-						var src = $(this).css('content');
-					}
-					imgShow(src);
-					outerdiv.find('.slick-track').css("transform","translate3d(-" + $(this).index('img.bigimg') + "00vw,0,0)");
-					InitializeBigImgBrowse(bigimg, $(this).index('img.bigimg'));
-				});
-				$('#img-back').click(function(){
-					var thisBigImg = bigimg.eq($(this).data("src"));
-					var src = thisBigImg.attr("src");
-					if(src===undefined){
-						var src = thisBigImg.css('content');
-					}
-					imgShow(src);
-					outerdiv.find('.slick-track').css("transform","translate3d(-" + $(this).data("src") + "00vw,0,0)");
-					InitializeBigImgBrowse(bigimg, $(this).data("src"));
-				})
-				$('#img-forward').click(function(){
-					var thisBigImg = bigimg.eq($(this).data("src"));
-					var src = thisBigImg.attr("src");
-					if(src===undefined){
-						var src = thisBigImg.css('content');
-					}
-					imgShow(src);
-					outerdiv.find('.slick-track').css("transform","translate3d(-" + $(this).data("src") + "00vw,0,0)");
-					InitializeBigImgBrowse(bigimg, $(this).data("src"));
-				})
-				$("#img-close").click(function() { //再次点击淡出消失弹出层
-					$('.img-btn').hide();
-					$(window).off('keydown');
-					$("#outerdiv").fadeOut("fast", function(){
-						$("#bigimg").css({'width': 'auto', 'height': 'auto'});
-					});
-					$('body').removeClass('hide-scrollbar');
-				})
-				outerdiv.on('mousedown touchstart', function(e){
-					var distenceX = e.pageX==undefined?e.originalEvent.targetTouches[0].pageX: e.pageX;
-					var wWidth = $(window).width();
-					var slickTrack = $(this).find('.slick-track');
-					var thisIndex = slickTrack.data('index');
-					var x = 0;
-					var xAbs = 0;
-					slickTrack.removeClass('slick-animation');
-					outerdiv.on('mousemove touchmove', function(e){
-						var pageX = e.pageX==undefined?e.originalEvent.targetTouches[0].pageX: e.pageX;
-						x = pageX - distenceX;
-						xAbs = Percentage(Math.abs(x), wWidth);
-						if(x>0){
-							var translate = parseInt(thisIndex + '00') - xAbs;
-						}else if(x<0){
-							var translate = parseInt(thisIndex + '00') + xAbs;
-						}
-						slickTrack.css("transform","translate3d(-" + parseInt(translate) + "vw,0,0)");
-					});
-					outerdiv.on('mouseup touchend', function(){
-						outerdiv.off('mousemove touchmove mouseup touchend');
-						slickTrack.addClass('slick-animation');
-						if(xAbs<=10){
-							outerdiv.find('.slick-track').css("transform","translate3d(-" + thisIndex + "00vw,0,0)");
-						}else if(x>0){
-							$('#img-back').click();
-						}else if(x<0){
-							$('#img-forward').click();
-						}
-					});
-				});
-			}
 		</script>
 		<div class="w-100" align="right" style="visibility: hidden;">
 			<script type="text/javascript" src="https://s4.cnzz.com/z_stat.php?id=1278874207&web_id=1278874207"></script>
