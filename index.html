@@ -8,6 +8,7 @@
 		<link href="https://cdn.bootcss.com/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
 		<script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.min.js"></script>
 		<script src="https://cdn.bootcss.com/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+		<script src="https://cdn.bootcdn.net/ajax/libs/ionicons/5.0.1/ionicons.min.js"></script>
 		<title>畅想海鲜店</title>
 		<style>
 			img{
@@ -60,37 +61,122 @@
 				padding-right: 5px;
 				padding-left: 5px;
 			}
+			.touch-none{
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+				-khtml-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
+			.hide-scrollbar {
+				overflow: hidden;
+			}
+			#outerdiv{
+				text-align: center;
+				position: fixed;
+				z-index: 1000;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #000;
+				overflow: hidden;
+				display: none;
+			}
+			.slick-animation{
+				transition: all .3s ease-in-out;
+				-webkit-transition: all .3s ease-in-out;
+				-moz-transition: all .3s ease-in-out;
+			}
+			#outerdiv .slick-slide{
+				position: relative;
+				float: left;
+				width: 100vw;
+				height: 100vh;
+			}
+			.slick-slide .landscape{
+				position: absolute;
+				margin: auto;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+			}
+			.img-btn{
+				display: none;
+				position: fixed;
+				z-index: 1001;
+				cursor: pointer;
+			}
+			#img-back{
+				color: #FFF;
+				width: 50vw;
+				height: 100vh;
+				left: 0;
+			}
+			#img-back .icon{
+				padding-left: 1vw;
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+			}
+			#img-forward{
+				color: #FFF;
+				width: 50vw;
+				height: 100vh;
+				right: 0;
+			}
+			#img-forward .icon{
+				padding-right: 1vw;
+				position: absolute;
+				top: 50%;
+				right: 0;
+				transform: translateY(-50%);
+			}
+			#img-close{
+				color: #FFF;
+				padding: 10px;
+				right: 0;
+			}
 		</style>
 		<script>
 			var supplies=[
-				{'name': '虾', 'price': '40元/斤', 'imgs': [
+				{'name': '鲍鱼', 'price': '30元/斤 8~9头', 'imgs': [
+					'https://commodity-1256424525.cos.ap-guangzhou.myqcloud.com/%E9%B2%8D%E9%B1%BC.jpg'
+					],
+				},{'name': '白昌', 'price': '22元/斤', 'imgs': [
+					'https://commodity-1256424525.cos.ap-guangzhou.myqcloud.com/%E7%99%BD%E6%98%8C.png'
+					],
+				},
+				{'name': '虾', 'price': '40元/斤 约25头', 'imgs': [
 					'https://commodity-1256424525.cos.ap-guangzhou.myqcloud.com/%E5%8D%97%E7%BE%8E%E7%99%BD%E5%AF%B9%E8%99%BE.jpg',
 					],
 				},
-				{'name': '龙利', 'price': '35元/斤', 'imgs': [
+				{'name': '龙利', 'price': '35元/斤 2~3条1斤', 'imgs': [
 					'https://commodity-1256424525.cos.ap-guangzhou.myqcloud.com/%E9%BE%99%E5%88%A9.jpg',
 					],
 				},
-				{'name': '金昌鱼', 'price': '28元/斤', 'imgs': [
+				{'name': '金昌鱼', 'price': '28元/斤 1条约1.3斤', 'imgs': [
 					'https://commodity-1256424525.cos.ap-guangzhou.myqcloud.com/%E9%87%91%E6%98%8C%E9%B1%BC.jpg',
 					'https://commodity-1256424525.cos.ap-guangzhou.myqcloud.com/%E9%87%91%E6%98%8C%E9%B1%BC%20%E8%8F%9C%E5%93%81.jpg',
 					'https://commodity-1256424525.cos.ap-guangzhou.myqcloud.com/%E9%A6%99%E7%85%8E%E9%87%91%E6%98%8C%E9%B1%BC.jpg',
 					'https://commodity-1256424525.cos.ap-guangzhou.myqcloud.com/%E6%B8%85%E8%92%B8%E9%87%91%E6%98%8C%E9%B1%BC.jpg'
 					],
 				},
-				{'name': '黄花鱼', 'price': '25元/斤', 'imgs': [
+				{'name': '黄花鱼', 'price': '25元/斤 1条约1.6斤', 'imgs': [
 					'https://commodity-1256424525.cos.ap-guangzhou.myqcloud.com/%E9%BB%84%E8%8A%B1%E9%B1%BC.jpg',
 					'https://commodity-1256424525.cos.ap-guangzhou.myqcloud.com/%E6%B8%85%E8%92%B8%E9%BB%84%E8%8A%B1%E9%B1%BC.jpg',
 					'https://commodity-1256424525.cos.ap-guangzhou.myqcloud.com/%E7%83%A4%E9%BB%84%E8%8A%B1%E9%B1%BC.jpg'
 					],
 				},
-				{'name': '带鱼', 'price': '32元/斤', 'imgs': [
+				{'name': '带鱼', 'price': '32元/斤 1条约2.5斤', 'imgs': [
 					'https://commodity-1256424525.cos.ap-guangzhou.myqcloud.com/%E5%B8%A6%E9%B1%BC.jpg',
 					'https://commodity-1256424525.cos.ap-guangzhou.myqcloud.com/%E9%A6%99%E7%85%8E%E5%B8%A6%E9%B1%BC.jpg',
 					'https://commodity-1256424525.cos.ap-guangzhou.myqcloud.com/%E5%B8%A6%E9%B1%BC%20%E8%8F%9C%E5%93%81.jpg'
 					],
 				},
-				{'name': '马胶鱼', 'price': '35元/斤', 'imgs': [
+				{'name': '马胶鱼', 'price': '35元/斤 1条6~8斤', 'imgs': [
 					'https://commodity-1256424525.cos.ap-guangzhou.myqcloud.com/%E9%A9%AC%E8%83%B6%E9%B1%BC.jpg',
 					'https://commodity-1256424525.cos.ap-guangzhou.myqcloud.com/%E9%A9%AC%E8%83%B6%E9%B1%BC%20%E9%A6%99%E7%85%8E.jpg'
 					],
@@ -261,6 +347,16 @@
 				</div>
 			</div>
 		</div>
+		<div id="outerdiv" class="touch-none"><div class="slick-track slick-animation" style="transform: translate3d(0vw, 0, 0);" data-index="0"></div></div>
+		<div id="img-back" class="img-btn"><ion-icon class="icon" name="chevron-back-outline" size="large"></ion-icon></div>
+		<div id="img-forward" class="img-btn"><ion-icon class="icon" name="chevron-forward-outline" size="large"></ion-icon></div>
+		<div id="img-close" class="img-btn"><ion-icon class="icon" name="close" size="large"></ion-icon></div>
+		<div class="alert alert-primary" role="alert">
+			微信手机同号：<a href="tel:18566499000">18566499000</a>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
 		<div class="container-fluid">
 			<div id="content" class="row" style="margin: 0px;"></div>
 		</div>
@@ -271,6 +367,110 @@
 				var imgs = value['imgs'][0]===undefined?'https://logo-1256424525.cos.ap-hongkong.myqcloud.com/%E6%9A%82%E6%97%A0%E5%9B%BE%E7%89%87.png': value['imgs'][0];
 				$('#content').append('<div class="col-xl-2 col-lg-3 col-sm-6 col-6"><div class="card" data-toggle="modal" data-target="#picture-collection" data-id="'+index+'"><div class="card-header">'+name+'</div><img class="rounded" src="'+imgs+'" alt="'+name+'" /><div class="card-body"><h5 class="card-title"><span></span><span class="price">'+price+'</span></h5></div></div></div>')
 			});
+			function imgShow(src) {
+				$('.img-btn').show();
+				$('body').addClass('hide-scrollbar');
+				$('#outerdiv .landscape').css({'width': '83.33vw', 'height': '88.88vh'});
+				$("#outerdiv").show().fadeIn("fast");
+				$(window).off('keydown');
+				$(window).keydown(function(e){
+					if(e.keyCode===37){
+						$('#img-back').click();
+					}else if(e.keyCode===39){
+						$('#img-forward').click();
+					}else if(e.keyCode===27){
+						$('#img-close').click();
+					}
+				})
+			}
+			function InitializeBigImgBrowse(ele, eleIndex){
+				ele.each(function(index){
+					if(eleIndex === index){
+						var pre = index == 0? 0 : index-1;
+						var next = index >= ele.length-1?ele.length-1 : index+1;
+						$('#img-back').data('src', pre);
+						$('#img-forward').data('src', next);
+						$("#outerdiv .slick-track").data('index', eleIndex);
+						return false;
+					}
+				})
+			}
+			function BigImgBrowse(){
+				var bigimg = $('img.bigimg');
+				var outerdiv = $('#outerdiv');
+				bigimg.each(function(index){
+					outerdiv.find('.slick-track').append('<div class="slick-slide"><div class="landscape" data-slick-index="'+index+'" style="background: url('+$(this).attr("src")+') center center / contain no-repeat;"></div></div>');
+				});
+				outerdiv.find('.slick-track').css('width', bigimg.length + '00vw');
+				bigimg.click(function() {
+					var src = $(this).attr("src");
+					if(src===undefined){
+						var src = $(this).css('content');
+					}
+					imgShow(src);
+					outerdiv.find('.slick-track').css("transform","translate3d(-" + $(this).index('img.bigimg') + "00vw,0,0)");
+					InitializeBigImgBrowse(bigimg, $(this).index('img.bigimg'));
+				});
+				$('#img-back').click(function(){
+					var thisBigImg = bigimg.eq($(this).data("src"));
+					var src = thisBigImg.attr("src");
+					if(src===undefined){
+						var src = thisBigImg.css('content');
+					}
+					imgShow(src);
+					outerdiv.find('.slick-track').css("transform","translate3d(-" + $(this).data("src") + "00vw,0,0)");
+					InitializeBigImgBrowse(bigimg, $(this).data("src"));
+				})
+				$('#img-forward').click(function(){
+					var thisBigImg = bigimg.eq($(this).data("src"));
+					var src = thisBigImg.attr("src");
+					if(src===undefined){
+						var src = thisBigImg.css('content');
+					}
+					imgShow(src);
+					outerdiv.find('.slick-track').css("transform","translate3d(-" + $(this).data("src") + "00vw,0,0)");
+					InitializeBigImgBrowse(bigimg, $(this).data("src"));
+				})
+				$("#img-close").click(function() { //再次点击淡出消失弹出层
+					$('.img-btn').hide();
+					$(window).off('keydown');
+					$("#outerdiv").fadeOut("fast", function(){
+						$("#bigimg").css({'width': 'auto', 'height': 'auto'});
+					});
+					$('body').removeClass('hide-scrollbar');
+				})
+				outerdiv.on('mousedown touchstart', function(e){
+					var distenceX = e.pageX==undefined?e.originalEvent.targetTouches[0].pageX: e.pageX;
+					var wWidth = $(window).width();
+					var slickTrack = $(this).find('.slick-track');
+					var thisIndex = slickTrack.data('index');
+					var x = 0;
+					var xAbs = 0;
+					slickTrack.removeClass('slick-animation');
+					outerdiv.on('mousemove touchmove', function(e){
+						var pageX = e.pageX==undefined?e.originalEvent.targetTouches[0].pageX: e.pageX;
+						x = pageX - distenceX;
+						xAbs = Percentage(Math.abs(x), wWidth);
+						if(x>0){
+							var translate = parseInt(thisIndex + '00') - xAbs;
+						}else if(x<0){
+							var translate = parseInt(thisIndex + '00') + xAbs;
+						}
+						slickTrack.css("transform","translate3d(-" + parseInt(translate) + "vw,0,0)");
+					});
+					outerdiv.on('mouseup touchend', function(){
+						outerdiv.off('mousemove touchmove mouseup touchend');
+						slickTrack.addClass('slick-animation');
+						if(xAbs<=10){
+							outerdiv.find('.slick-track').css("transform","translate3d(-" + thisIndex + "00vw,0,0)");
+						}else if(x>0){
+							$('#img-back').click();
+						}else if(x<0){
+							$('#img-forward').click();
+						}
+					});
+				});
+			}
 		</script>
 		<div class="w-100" align="right" style="visibility: hidden;">
 			<script type="text/javascript" src="https://s4.cnzz.com/z_stat.php?id=1278874207&web_id=1278874207"></script>
