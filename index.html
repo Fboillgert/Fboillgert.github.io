@@ -360,10 +360,7 @@
 					$('.img-btn').show();
 				}
 				$('body').addClass('hide-scrollbar');
-				slickTrack.html('');
-				slickTrack.css('width', eleImgs.length + '00vw');
 				$.each(eleImgs, function(index, img){
-					slickTrack.append('<div class="slick-slide"><div class="landscape" data-slick-index="'+index+'" style="background: url('+img+') center center / contain no-repeat;"></div></div>');
 					if(eleIndex === index){
 						var pre = index == 0? 0 : index-1;
 						var next = index >= eleImgs.length-1?eleImgs.length-1 : index+1;
@@ -419,6 +416,11 @@
 				$('.card').click(function(){
 					$('#img-header .name').text($(this).find('.card-header').text());
 					eleImgs = supplies[$(this).data('id')]['imgs'];
+					slickTrack.html('');
+					slickTrack.css('width', eleImgs.length + '00vw');
+					$.each(eleImgs, function(index, img){
+						slickTrack.append('<div class="slick-slide"><div class="landscape" data-slick-index="'+index+'" style="background: url('+img+') center center / contain no-repeat;"></div></div>');
+					});
 					imgShow(eleImgs[0], 0);
 					slickTrack.css("transform","translate3d(0vw,0,0)");
 				});
