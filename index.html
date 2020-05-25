@@ -352,6 +352,7 @@
 				var thisIndex = slickTrack.data('index');
 				var x = 0;
 				var xAbs = 0;
+				var startTime = new Date();
 				slickTrack.removeClass('slick-animation');
 				pictureCurtain.on('mousemove touchmove', function(e){
 					var pageX = e.pageX==undefined?e.originalEvent.targetTouches[0].pageX: e.pageX;
@@ -367,7 +368,9 @@
 				pictureCurtain.on('mouseup touchend', function(){
 					pictureCurtain.off('mousemove touchmove mouseup touchend');
 					slickTrack.addClass('slick-animation');
-					if(xAbs<=10){
+					if(xAbs==0 && (new Date() - startTime.getTime()) <= 100){
+						$('#img-close').click();
+					}else if(xAbs<=10){
 						slickTrack.css("transform","translate3d(-" + thisIndex + "00vw,0,0)");
 					}else if(x>0){
 						$('#img-back').click();
@@ -442,23 +445,23 @@
 					$('body').removeClass('hide-scrollbar');
 				});
 			}
-			$(document).ready(function(){
-				PicturePreview();
+			function updateSupplies(){
 				// 数据都保存在 supplies 里，到时由ajax获取这个变量
-				// $.ajax({
-				// 	url:'http://127.0.0.1:5555/project/json',
-				// 	type: "GET",
-				// 	dataType: "jsonp",
-				// 	jsonp: "callback",
-				// 	jsonpCallback: "successCallback", //这里的值需要和回调函数名一样
-				// 	success:function(data){
-				// 		console.log(data);
-				// 	},
-				// 	error:function (textStatus){ //请求失败后调用的函数
-				// 		console.log(JSON.stringify(textStatus));
-				// 	}
-				// });
-			})
+				$.ajax({
+					url:'http://127.0.0.1:5555/project/json',
+					type: "GET",
+					dataType: "jsonp",
+					jsonp: "callback",
+					jsonpCallback: "successCallback", //这里的值需要和回调函数名一样
+					success:function(data){
+						console.log(data);
+					},
+					error:function (textStatus){ //请求失败后调用的函数
+						console.log(JSON.stringify(textStatus));
+					}
+				});
+			}
+			PicturePreview();
 		</script>
 		<div class="w-100" align="right" style="visibility: hidden;">
 			<script type="text/javascript" src="https://s4.cnzz.com/z_stat.php?id=1278874207&web_id=1278874207"></script>
