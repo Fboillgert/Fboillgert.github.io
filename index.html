@@ -410,7 +410,8 @@
 					}else if(e.keyCode===27){
 						$('#img-close').click();
 					}
-				})
+				});
+				slickTrack.css("transform","translate3d(-" + eleIndex + "00vw,0,0)");
 			}
 			function PicturePreview(){
 				$('.card').click(function(){
@@ -422,17 +423,12 @@
 						slickTrack.append('<div class="slick-slide"><div class="landscape" data-slick-index="'+index+'" style="background: url('+img+') center center / contain no-repeat;"></div></div>');
 					});
 					imgShow(0);
-					slickTrack.css("transform","translate3d(-000vw,0,0)");
 				});
 				$('#img-back').click(function(){
-					var imgIndex = $(this).data("src");
-					imgShow(imgIndex);
-					slickTrack.css("transform","translate3d(-" + imgIndex + "00vw,0,0)");
+					imgShow($(this).data("src"));
 				});
 				$('#img-forward').click(function(){
-					var imgIndex = $(this).data("src");
-					imgShow(imgIndex);
-					slickTrack.css("transform","translate3d(-" + imgIndex + "00vw,0,0)");
+					imgShow($(this).data("src"));
 				});
 				$("#img-close").click(function() {
 					$('.img-btn').hide();
