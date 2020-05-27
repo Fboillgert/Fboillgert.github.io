@@ -418,7 +418,6 @@
 				$('.card').click(function(){
 					$('#img-header .name').text($(this).find('.card-header').text());
 					eleImgs = supplies[$(this).data('id')]['imgs'];
-					slickTrack.html('');
 					slickTrack.css('width', eleImgs.length + '00vw');
 					$.each(eleImgs, function(index, img){
 						slickTrack.append('<div class="slick-slide"><div class="landscape" data-slick-index="'+index+'" style="background: url('+img+') center center / contain no-repeat;"></div></div>');
@@ -433,9 +432,10 @@
 				});
 				$("#img-close").click(function() {
 					$('.img-btn').hide();
-					$(window).off('keydown');
 					pictureCurtain.fadeOut("fast");
 					$('body').removeClass('hide-scrollbar');
+					$(window).off('keydown');
+					slickTrack.html('');
 				});
 			}
 			function updateSupplies(){
