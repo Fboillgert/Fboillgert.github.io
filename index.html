@@ -456,6 +456,9 @@
 				});
 			}
 			PicturePreview();
+			$.get('data.json', function(data, status){
+				window.suppliesJSON = data;
+			})
 		</script>
 		<div class="w-100" align="right" style="visibility: hidden;">
 			<script type="text/javascript" src="https://s4.cnzz.com/z_stat.php?id=1278874207&web_id=1278874207"></script>
