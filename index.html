@@ -143,6 +143,9 @@
 				padding-right: 5px;
 				padding-left: 5px;
 			}
+			.bi{
+				font-size: 40px;
+			}
 		</style>
 	</head>
 	<body>
@@ -151,9 +154,24 @@
 			<span class="name"></span>
 			<span class="index"></span>
 		</div>
-		<div id="img-back" class="img-btn"><ion-icon class="icon" name="chevron-back-outline" size="large"></ion-icon></div>
-		<div id="img-forward" class="img-btn"><ion-icon class="icon" name="chevron-forward-outline" size="large"></ion-icon></div>
-		<div id="img-close" class="img-btn"><ion-icon class="icon" name="close" size="large"></ion-icon></div>
+		<div id="img-back" class="img-btn">
+			<svg class="bi bi-arrow-left-short icon" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+				<path fill-rule="evenodd" d="M7.854 4.646a.5.5 0 0 1 0 .708L5.207 8l2.647 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0z"/>
+				<path fill-rule="evenodd" d="M4.5 8a.5.5 0 0 1 .5-.5h6.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5z"/>
+			</svg>
+		</div>
+		<div id="img-forward" class="img-btn">
+			<svg class="bi bi-arrow-right-short icon" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+				<path fill-rule="evenodd" d="M8.146 4.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.793 8 8.146 5.354a.5.5 0 0 1 0-.708z"/>
+				<path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5H11a.5.5 0 0 1 0 1H4.5A.5.5 0 0 1 4 8z"/>
+			</svg>
+		</div>
+		<div id="img-close" class="img-btn">
+			<svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+				<path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>
+				<path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/>
+			</svg>
+		</div>
 		<div class="alert alert-primary" role="alert">
 			微信手机同号：<a href="tel:18566499000">18566499000</a>
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -165,8 +183,6 @@
 		</div>
 		<script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.min.js"></script>
 		<script src="https://cdn.bootcss.com/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
-		<script type="module" src="https://cdn.bootcdn.net/ajax/libs/ionicons/5.0.1/ionicons/ionicons.esm.js"></script>
-		<script nomodule="" src="https://cdn.bootcdn.net/ajax/libs/ionicons/5.0.1/ionicons/ionicons.js"></script>
 		<script>
 			var defaultImg = 'https://logo-1256424525.cos.ap-hongkong.myqcloud.com/%E6%9A%82%E6%97%A0%E5%9B%BE%E7%89%87.png';
 			var pictureCurtain = $('#picture-curtain');
