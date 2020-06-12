@@ -144,11 +144,6 @@
 				padding-left: 5px;
 			}
 		</style>
-		<script>
-			$.getJSON('supplies.json', function(supplies){
-				window.supplies = supplies;
-			});
-		</script>
 	</head>
 	<body>
 		<div id="picture-curtain" class="touch-none"><div class="slick-track slick-animation" style="transform: translate3d(0vw, 0, 0);" data-index="0"></div></div>
@@ -174,51 +169,12 @@
 		<script nomodule="" src="https://cdn.bootcdn.net/ajax/libs/ionicons/5.0.1/ionicons/ionicons.js"></script>
 		<script>
 			var defaultImg = 'https://logo-1256424525.cos.ap-hongkong.myqcloud.com/%E6%9A%82%E6%97%A0%E5%9B%BE%E7%89%87.png';
-			$.each(supplies, function(index, value){
-				var name = value['name'];
-				var price = value['price'];
-				var imgs = value['imgs'][0]===undefined?defaultImg: value['imgs'][0];
-				$('#content').append('<div class="col-xl-2 col-lg-3 col-sm-6 col-6"><div class="card" data-id="'+index+'"><div class="card-header">'+name+'</div><img class="rounded" src="'+imgs+'" alt="'+name+'" /><div class="card-body"><h5 class="card-title"><span></span><span class="price">'+price+'</span></h5></div></div></div>')
-			});
 			var pictureCurtain = $('#picture-curtain');
 			var slickTrack = pictureCurtain.find('.slick-track');
 			var eleImgs = new Array();
 			function Percentage(num, total) {
 				return num == 0 || total == 0 ? 0 : (Math.round(num / total * 10000) / 100.00)
 			}
-			pictureCurtain.on('mousedown touchstart', function(e){
-				var distenceX = e.pageX==undefined?e.originalEvent.targetTouches[0].pageX: e.pageX;
-				var wWidth = $(window).width();
-				var thisIndex = slickTrack.data('index');
-				var x = 0;
-				var xAbs = 0;
-				var startTime = new Date();
-				slickTrack.removeClass('slick-animation');
-				pictureCurtain.on('mousemove touchmove', function(e){
-					var pageX = e.pageX==undefined?e.originalEvent.targetTouches[0].pageX: e.pageX;
-					x = pageX - distenceX;
-					xAbs = Percentage(Math.abs(x), wWidth);
-					if(x>0){
-						var translate = parseInt(thisIndex + '00') - xAbs;
-					}else if(x<0){
-						var translate = parseInt(thisIndex + '00') + xAbs;
-					}
-					slickTrack.css("transform","translate3d(-" + parseInt(translate) + "vw,0,0)");
-				});
-				pictureCurtain.on('mouseup touchend', function(){
-					pictureCurtain.off('mousemove touchmove mouseup touchend');
-					slickTrack.addClass('slick-animation');
-					if(xAbs==0 && (new Date() - startTime.getTime()) <= 100){
-						$('#img-close').click();
-					}else if(xAbs<=10){
-						slickTrack.css("transform","translate3d(-" + thisIndex + "00vw,0,0)");
-					}else if(x>0){
-						$('#img-back').click();
-					}else if(x<0){
-						$('#img-forward').click();
-					}
-				});
-			});
 			function imgShow(eleIndex) {
 				$('#img-header .index').text((eleIndex+1) + '/' + eleImgs.length);
 				if (window.matchMedia("(max-aspect-ratio:7/10)").matches) {
@@ -280,8 +236,50 @@
 					$(window).off('keydown');
 					slickTrack.html('');
 				});
+				pictureCurtain.on('mousedown touchstart', function(e){
+					var distenceX = e.pageX==undefined?e.originalEvent.targetTouches[0].pageX: e.pageX;
+					var wWidth = $(window).width();
+					var thisIndex = slickTrack.data('index');
+					var x = 0;
+					var xAbs = 0;
+					var startTime = new Date();
+					slickTrack.removeClass('slick-animation');
+					pictureCurtain.on('mousemove touchmove', function(e){
+						var pageX = e.pageX==undefined?e.originalEvent.targetTouches[0].pageX: e.pageX;
+						x = pageX - distenceX;
+						xAbs = Percentage(Math.abs(x), wWidth);
+						if(x>0){
+							var translate = parseInt(thisIndex + '00') - xAbs;
+						}else if(x<0){
+							var translate = parseInt(thisIndex + '00') + xAbs;
+						}
+						slickTrack.css("transform","translate3d(-" + parseInt(translate) + "vw,0,0)");
+					});
+					pictureCurtain.on('mouseup touchend', function(){
+						pictureCurtain.off('mousemove touchmove mouseup touchend');
+						slickTrack.addClass('slick-animation');
+						if(xAbs==0 && (new Date() - startTime.getTime()) <= 100){
+							$('#img-close').click();
+						}else if(xAbs<=10){
+							slickTrack.css("transform","translate3d(-" + thisIndex + "00vw,0,0)");
+						}else if(x>0){
+							$('#img-back').click();
+						}else if(x<0){
+							$('#img-forward').click();
+						}
+					});
+				});
 			}
-			PicturePreview();
+			$.getJSON('supplies.json', function(supplies){
+				window.supplies = supplies;
+				$.each(supplies, function(index, value){
+					var name = value['name'];
+					var price = value['price'];
+					var imgs = value['imgs'][0]===undefined?defaultImg: value['imgs'][0];
+					$('#content').append('<div class="col-xl-2 col-lg-3 col-sm-6 col-6"><div class="card" data-id="'+index+'"><div class="card-header">'+name+'</div><img class="rounded" src="'+imgs+'" alt="'+name+'" /><div class="card-body"><h5 class="card-title"><span></span><span class="price">'+price+'</span></h5></div></div></div>')
+				});
+				PicturePreview();
+			});
 		</script>
 		<div class="w-100" align="right" style="visibility: hidden;">
 			<script type="text/javascript" src="https://s4.cnzz.com/z_stat.php?id=1278874207&web_id=1278874207"></script>
