@@ -456,7 +456,7 @@
 				});
 			}
 			PicturePreview();
-			$.get('data.json', function(data, status){
+			$.get('data.json', {}, function(data, status){
 				window.suppliesJSON = data;
 			})
 		</script>
