@@ -6,10 +6,11 @@
 		<title></title>
 	</head>
 	<body>
+		<div>1</div>
 		<script>
-			$.get('data.json', function(data, status){
-				window.supplies = data;
-			})
+			$.getJSON('supplies.json', function(data){
+				console.log(data);
+			});
 		</script>
 	</body>
 </html>
