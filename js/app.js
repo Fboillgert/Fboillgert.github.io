@@ -103,6 +103,7 @@ function PicturePreview(){
 PicturePreview();
 
 $.getJSON('supplies.json', function(supplies){
+	window.supplies = supplies;
 	$.each(supplies, function(index, value){
 		var name = value['name'];
 		var price = value['price'];
